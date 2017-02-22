@@ -18,7 +18,9 @@ clipping the weights to [-0.05, 0.05] worked a bit better.
 
 #### Data
 Standard practice is to resize the CelebA images to 96x96 and the crop a center 64x64 image. `loadceleba.py`
-(called in `train.py`) takes as input the directory to your images, and will resize them upon loading.
+takes as input the directory to your images, and will resize them upon loading. To load the entire dataset
+at the start instead of reading from disk each step, you will need about 200,000*64*64*3*3 bytes = ~7.5
+GB of RAM.
 
 #### Tensorboard
 Tensorboard logs are stored in `checkpoints/celeba/logs`. I am updating Tensorboard every step as training
