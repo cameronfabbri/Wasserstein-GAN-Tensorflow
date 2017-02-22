@@ -5,7 +5,7 @@ import sys
 sys.path.insert(0, '../../ops/')
 from tf_ops import lrelu
 
-def netG(z, batch_size):
+def netG(z, dataset, batch_size):
 
    print 'GENERATOR'
    z = slim.fully_connected(z, 4*4*1024, normalizer_fn=slim.batch_norm, activation_fn=tf.identity, scope='g_z')
@@ -25,8 +25,16 @@ def netG(z, batch_size):
    conv3 = tf.nn.relu(conv3)
    print 'conv3:',conv3
 
-   conv4 = slim.convolution2d_transpose(conv3, 3, 5, stride=2, activation_fn=tf.identity, scope='g_conv4')
+   if dataset == 'celeba':
+      conv4 = slim.convolution2d_transpose(conv3, 3, 5, stride=2, activation_fn=tf.identity, scope='g_conv4')
+   if dataset == 'mnist':
+      conv4 = slim.convolution2d_transpose(conv3, 1, 5, stride=2, activation_fn=tf.identity, scope='g_conv4')
+   
    conv4 = tf.nn.tanh(conv4)
+   
+   if dataset == 'mnist':
+      conv4 = conv4[:,:28,:28,:]
+   
    print 'conv4:',conv4
    print
    print 'END G'

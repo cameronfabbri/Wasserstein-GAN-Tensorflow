@@ -8,13 +8,16 @@ import cv2
 import os
 
 sys.path.insert(0, 'config/')
-sys.path.insert(0, '../../ops/')
-import loadceleba
+sys.path.insert(0, 'ops/')
+import celeba
+import mnist
 
 '''
    Builds the graph and sets up params, then starts training
 '''
 def buildAndTrain(info):
+   
+   global_step = tf.Variable(0, name='global_step', trainable=False)
 
    checkpoint_dir = info['checkpoint_dir']
    batch_size     = info['batch_size']
@@ -23,15 +26,18 @@ def buildAndTrain(info):
    gray           = info['load']
 
    # load data
-   image_data = loadceleba.load(load=load)
+   if dataset == 'mnist':
+      image_data = mnist.load(split='all')
+      real_images = tf.placeholder(tf.float32, shape=(batch_size, 28, 28, 1), name='real_images')
 
-   # placeholders for data going into the network
-   global_step = tf.Variable(0, name='global_step', trainable=False)
-   real_images = tf.placeholder(tf.float32, shape=(batch_size, 64, 64, 3), name='color_images')
-   z           = tf.placeholder(tf.float32, shape=(batch_size, 100), name='z')
+   elif dataset == 'celeba':
+      image_data = loadceleba.load(load=load)
+      real_images = tf.placeholder(tf.float32, shape=(batch_size, 64, 64, 3), name='real_images')
+
+   z = tf.placeholder(tf.float32, shape=(batch_size, 100), name='z')
 
    # generated images
-   gen_images = netG(z, batch_size)
+   gen_images = netG(z, dataset, batch_size)
 
    # get the output from D on the real and fake data
    errD_real = netD(real_images, batch_size)
@@ -121,7 +127,7 @@ def buildAndTrain(info):
 
       step += 1
 
-      if step%500 == 0:
+      if step%10 == 0:
          print 'Saving model...'
          saver.save(sess, checkpoint_dir+dataset+'/checkpoint-'+str(step), global_step=global_step)
          
@@ -130,9 +136,12 @@ def buildAndTrain(info):
 
          num = 0
          for img in gen_imgs[0]:
+            # TODO make this cleaner, call a save function with the dataset name and image and step etc
             img = np.asarray(img)
-            img = (img+1.)/2. # these two lines properly scale from [-1, 1] to [0, 255]
-            img *= 255.0/img.max()
+            # JUST FOR MNIST
+            img *= 1.0/img.max()
+            #img = (img+1.)/2. # these two lines properly scale from [-1, 1] to [0, 255]
+            #img *= 255.0/img.max()
             cv2.imwrite('images/'+dataset+'/'+str(step)+'_'+str(num)+'.png', img)
             num += 1
             if num == 20:
