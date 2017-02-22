@@ -4,7 +4,7 @@ the paper can be found [here](https://github.com/martinarjovsky/WassersteinGAN)
 
 Requirements
 * Python 2.7
-* Tensorflow v1.0
+* [Tensorflow v1.0](https://www.tensorflow.org/)
 * [CelebA dataset](https://www.dropbox.com/sh/8oqt9vytwxb3s4r/AADIKlz8PR9zr6Y20qbkunrba/Img/img_align_celeba.zip)
 
 #### Training
