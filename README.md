@@ -1,2 +1,2 @@
-# Wasserstein-GAN-Tensorflow
+# Wasserstein GAN Tensorflow
 Implementation of Wasserstein GAN in Tensorflow
