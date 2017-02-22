@@ -18,10 +18,11 @@ clipping the weights to [-0.05, 0.05] worked a bit better.
 
 #### Data
 
+
 #### Tensorboard
 Tensorboard logs are stored in `checkpoints/celeba/logs`. I am updating Tensorboard every step as training
 isn't completely stable yet. *These can get very big*, around 50GB. See around line 115 in `train.py` to
-change how often logs are commited.
+change how often logs are committed.
 
 #### Results
 
