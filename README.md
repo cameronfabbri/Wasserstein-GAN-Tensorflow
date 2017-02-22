@@ -8,7 +8,13 @@ Requirements
 * [CelebA dataset](https://www.dropbox.com/sh/8oqt9vytwxb3s4r/AADIKlz8PR9zr6Y20qbkunrba/Img/img_align_celeba.zip)
 
 #### Training
+Training is pretty slow due to the small learning rate and multiple updates of the critic for one
+update of the generator. Preloading the data (not reading images from disk every step) helps speed
+it up a bit.
 
+I noticed that clipping the weights of the critic to [-0.1, 0.1] like they do in the paper caused the
+critic and generator loss to not really change, although image quality was increasing. I found that instead
+clipping the weights to [-0.05, 0.05] worked a bit better.
 
 
 
