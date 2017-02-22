@@ -127,7 +127,7 @@ def buildAndTrain(info):
 
       step += 1
 
-      if step%10 == 0:
+      if step%100 == 0:
          print 'Saving model...'
          saver.save(sess, checkpoint_dir+dataset+'/checkpoint-'+str(step), global_step=global_step)
          
