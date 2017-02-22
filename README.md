@@ -28,6 +28,6 @@ isn't completely stable yet. *These can get very big*, around 50GB. See around l
 change how often logs are committed.
 
 #### Results
-
+More coming after training is done. Here are a few after ~50,000 iterations.
 
 
