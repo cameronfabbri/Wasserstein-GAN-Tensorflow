@@ -15,7 +15,6 @@ Requirements
 
 
 #### Results
-Here are some non-cherry picked results after about 50,000 iterations (~15 epochs)
 
 
 
