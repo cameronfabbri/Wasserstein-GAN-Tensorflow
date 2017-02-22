@@ -16,9 +16,12 @@ I noticed that clipping the weights of the critic to [-0.1, 0.1] like they do in
 critic and generator loss to not really change, although image quality was increasing. I found that instead
 clipping the weights to [-0.05, 0.05] worked a bit better.
 
+#### Data
 
-
-
+#### Tensorboard
+Tensorboard logs are stored in `checkpoints/celeba/logs`. I am updating Tensorboard every step as training
+isn't completely stable yet. *These can get very big*, around 50GB. See around line 115 in `train.py` to
+change how often logs are commited.
 
 #### Results
 
