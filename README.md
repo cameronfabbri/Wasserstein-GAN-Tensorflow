@@ -2,6 +2,8 @@
 Implementation of [Wasserstein GAN](https://arxiv.org/abs/1701.07875) in Tensorflow. Official repo for
 the paper can be found [here](https://github.com/martinarjovsky/WassersteinGAN)
 
+___
+
 Requirements
 * Python 2.7
 * [Tensorflow v1.0](https://www.tensorflow.org/)
@@ -29,7 +31,7 @@ it up a bit. These were trained on a GTX-1080 for about 24 hours.
 
 I noticed that clipping the weights of the critic to [-0.1, 0.1] like they do in the paper caused the
 critic and generator loss to not really change, although image quality was increasing. I found that instead
-clipping the weights to [-0.05, 0.05] worked a bit better.
+clipping the weights to [-0.05, 0.05] worked a bit better, showing better image quality and convergence.
 
 #### Data
 Standard practice is to resize the CelebA images to 96x96 and the crop a center 64x64 image. `loadceleba.py`
