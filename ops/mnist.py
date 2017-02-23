@@ -29,16 +29,21 @@ def load(mnist_file='/home/fabbric/data/images/mnist/mnist.pkl',
 
    # reshape images
    i = 0
-   for tr, te, va in zip(train_images_, test_images_, val_images_):
+   for tr in train_images_:
       tr = np.expand_dims(np.reshape(tr, (28, 28)), 2)
       train_images[i, ...] = tr
-      
+      i += 1
+   
+   i = 0
+   for te in test_images_:   
       te = np.expand_dims(np.reshape(te, (28, 28)), 2)
       test_images[i, ...] = tr
+      i += 1
       
+   i = 0
+   for va in val_images_:
       va = np.expand_dims(np.reshape(va, (28, 28)), 2)
       val_images[i, ...] = va
-
       i += 1
 
    if split == 'train': return train_images
