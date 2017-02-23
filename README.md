@@ -9,7 +9,7 @@ Requirements
 
 #### Results
 Here are some randomly generated results after ~120,000 iterations.
-[!img](http://i.imgur.com/AApFex3.jpg)
+![img](http://i.imgur.com/AApFex3.jpg)
 
 
 #### Training
