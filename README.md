@@ -2,12 +2,6 @@
 Implementation of [Wasserstein GAN](https://arxiv.org/abs/1701.07875) in Tensorflow. Official repo for
 the paper can be found [here](https://github.com/martinarjovsky/WassersteinGAN).
 
-#### Outline
-* Results
-* Training
-* Data
-* Tensorboard
-
 ___
 
 Requirements
@@ -20,7 +14,7 @@ Here are some non cherry-picked generated images after ~120,000 iterations. Imag
 blurry after ~100,000 iterations. The loss in the graphs shows the critic was starting to get worse,
 but both were generally converging.
 
-![img](http://i.imgur.com/AApFex3.jpg)
+![img](http://i.imgur.com/PJngSlg.jpg)
 
 Critic loss
 
