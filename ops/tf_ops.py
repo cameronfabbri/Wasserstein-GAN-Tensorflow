@@ -13,7 +13,7 @@ def normalizeImage(img, n='tanh'):
    if n == 'tanh': return img/127.5 - 1. # normalize between -1 and 1
    if n == 'norm': return img/255.0      # normalize between 0 and 1
 
-def saveImage(img, path):
+def saveImage(img, path, dataset):
    img = (img+1.)/2.
    img = 255.0/img.max()
    cv2.imwrite(img, path)
