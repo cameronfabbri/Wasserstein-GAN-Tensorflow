@@ -1,7 +1,11 @@
 # Wasserstein GAN Tensorflow
 Implementation of [Wasserstein GAN](https://arxiv.org/abs/1701.07875) in Tensorflow. Official repo for
-the paper can be found [here](https://github.com/martinarjovsky/WassersteinGAN)
+the paper can be found [here](https://github.com/martinarjovsky/WassersteinGAN).
 
+* Results
+* Training
+* Data
+* Tensorboard
 ___
 
 Requirements
