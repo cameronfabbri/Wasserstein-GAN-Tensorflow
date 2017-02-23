@@ -6,3 +6,4 @@ checkpoints/*
 *.log
 *.tex
 log*
+*.swp
