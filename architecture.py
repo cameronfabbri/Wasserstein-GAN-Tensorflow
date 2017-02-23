@@ -2,7 +2,7 @@ import tensorflow as tf
 import tensorflow.contrib.slim as slim
 import sys
 
-sys.path.insert(0, '../../ops/')
+sys.path.insert(0, 'ops/')
 from tf_ops import lrelu
 
 def netG(z, dataset, batch_size):
@@ -25,7 +25,7 @@ def netG(z, dataset, batch_size):
    conv3 = tf.nn.relu(conv3)
    print 'conv3:',conv3
 
-   if dataset == 'celeba':
+   if dataset == 'celeba' or dataset == 'pokemon':
       conv4 = slim.convolution2d_transpose(conv3, 3, 5, stride=2, activation_fn=tf.identity, scope='g_conv4')
    if dataset == 'mnist':
       conv4 = slim.convolution2d_transpose(conv3, 1, 5, stride=2, activation_fn=tf.identity, scope='g_conv4')

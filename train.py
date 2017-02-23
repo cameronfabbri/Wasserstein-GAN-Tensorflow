@@ -11,6 +11,7 @@ sys.path.insert(0, 'config/')
 sys.path.insert(0, 'ops/')
 import celeba
 import mnist
+import pokemon
 
 '''
    Builds the graph and sets up params, then starts training
@@ -32,6 +33,10 @@ def buildAndTrain(info):
 
    elif dataset == 'celeba':
       image_data = loadceleba.load(load=load)
+      real_images = tf.placeholder(tf.float32, shape=(batch_size, 64, 64, 3), name='real_images')
+
+   elif dataset == 'pokemon':
+      image_data = pokemon.load(load=load)
       real_images = tf.placeholder(tf.float32, shape=(batch_size, 64, 64, 3), name='real_images')
 
    z = tf.placeholder(tf.float32, shape=(batch_size, 100), name='z')
