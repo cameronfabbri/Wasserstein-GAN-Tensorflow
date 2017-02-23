@@ -144,9 +144,9 @@ def buildAndTrain(info):
             # TODO make this cleaner, call a save function with the dataset name and image and step etc
             img = np.asarray(img)
             # JUST FOR MNIST
-            #img *= 1.0/img.max()
-            img = (img+1.)/2. # these two lines properly scale from [-1, 1] to [0, 255]
-            img *= 255.0/img.max()
+            img *= 1.0/img.max()
+            #img = (img+1.)/2. # these two lines properly scale from [-1, 1] to [0, 255]
+            #img *= 255.0/img.max()
             cv2.imwrite('images/'+dataset+'/'+str(step)+'_'+str(num)+'.png', img)
             num += 1
             if num == 20:
