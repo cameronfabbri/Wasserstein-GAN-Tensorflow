@@ -8,7 +8,7 @@ Requirements
 * [CelebA dataset](https://www.dropbox.com/sh/8oqt9vytwxb3s4r/AADIKlz8PR9zr6Y20qbkunrba/Img/img_align_celeba.zip)
 
 #### Results
-Here are some randomly generated results after ~120,000 iterations.
+Here are some non cherry-picked generated results after ~120,000 iterations.
 ![img](http://i.imgur.com/AApFex3.jpg)
 
 
