@@ -7,3 +7,5 @@ checkpoints/*
 *.tex
 log*
 *.swp
+*.png
+*.jpg
