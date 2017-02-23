@@ -1,0 +1,8 @@
+*.pyc
+*.png
+checkpoint*
+checkpoint/*
+checkpoints/*
+*.log
+*.tex
+log*
