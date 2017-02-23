@@ -9,7 +9,8 @@ Requirements
 
 #### Results
 Here are some non cherry-picked generated images after ~120,000 iterations. Images started to get a tad
-blurry after ~100,000 iterations. The loss in the graphs shows the critic was starting to get worse.
+blurry after ~100,000 iterations. The loss in the graphs shows the critic was starting to get worse,
+but both were generally converging.
 
 ![img](http://i.imgur.com/AApFex3.jpg)
 
