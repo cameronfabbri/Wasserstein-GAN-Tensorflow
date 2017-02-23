@@ -26,8 +26,8 @@ Generator loss
 
 #### Training
 Training is pretty slow due to the small learning rate and multiple updates of the critic for one
-update of the generator. Preloading the data (not reading images from disk every step) helps speed
-it up a bit. These were trained on a GTX-1080 for about 24 hours.
+update of the generator. Preloading the data helps speed it up a bit. These were trained on a GTX-1080
+for about 24 hours.
 
 I noticed that clipping the weights of the critic to [-0.1, 0.1] like they do in the paper caused the
 critic and generator loss to not really change, although image quality was increasing. I found that instead
