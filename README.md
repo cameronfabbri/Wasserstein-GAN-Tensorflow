@@ -8,9 +8,18 @@ Requirements
 * [CelebA dataset](https://www.dropbox.com/sh/8oqt9vytwxb3s4r/AADIKlz8PR9zr6Y20qbkunrba/Img/img_align_celeba.zip)
 
 #### Results
-Here are some non cherry-picked generated results after ~120,000 iterations.
+Here are some non cherry-picked generated images after ~120,000 iterations. Images started to get a tad
+blurry after ~100,000 iterations. The loss in the graphs shows the critic was starting to get worse.
+
 ![img](http://i.imgur.com/AApFex3.jpg)
 
+Critic loss
+
+![d](http://i.imgur.com/Mtx7rlK.png)
+
+Generator loss
+
+![g](http://i.imgur.com/bJBQhBX.png)
 
 #### Training
 Training is pretty slow due to the small learning rate and multiple updates of the critic for one
