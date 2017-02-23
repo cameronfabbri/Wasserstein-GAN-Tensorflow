@@ -7,6 +7,11 @@ Requirements
 * [Tensorflow v1.0](https://www.tensorflow.org/)
 * [CelebA dataset](https://www.dropbox.com/sh/8oqt9vytwxb3s4r/AADIKlz8PR9zr6Y20qbkunrba/Img/img_align_celeba.zip)
 
+#### Results
+Here are some randomly generated results after ~120,000 iterations.
+[!img](http://i.imgur.com/AApFex3.jpg)
+
+
 #### Training
 Training is pretty slow due to the small learning rate and multiple updates of the critic for one
 update of the generator. Preloading the data (not reading images from disk every step) helps speed
@@ -27,7 +32,5 @@ Tensorboard logs are stored in `checkpoints/celeba/logs`. I am updating Tensorbo
 isn't completely stable yet. *These can get very big*, around 50GB. See around line 115 in `train.py` to
 change how often logs are committed.
 
-#### Results
-More coming after training is done. Here are a few after ~50,000 iterations.
 
 
