@@ -7,7 +7,9 @@ ___
 Requirements
 * Python 2.7
 * [Tensorflow v1.0](https://www.tensorflow.org/)
-* [CelebA dataset](https://www.dropbox.com/sh/8oqt9vytwxb3s4r/AADIKlz8PR9zr6Y20qbkunrba/Img/img_align_celeba.zip)
+
+Datasets
+[CelebA dataset](https://www.dropbox.com/sh/8oqt9vytwxb3s4r/AADIKlz8PR9zr6Y20qbkunrba/Img/img_align_celeba.zip)
 
 #### Results
 Here are some non cherry-picked generated images after ~120,000 iterations. Images started to get a tad
@@ -44,5 +46,7 @@ Tensorboard logs are stored in `checkpoints/celeba/logs`. I am updating Tensorbo
 isn't completely stable yet. *These can get very big*, around 50GB. See around line 115 in `train.py` to
 change how often logs are committed.
 
+#### How to
 
+##### Train
 
