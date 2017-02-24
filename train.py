@@ -11,7 +11,6 @@ sys.path.insert(0, 'config/')
 sys.path.insert(0, 'ops/')
 import celeba
 import mnist
-import pokemon
 import data_ops
 import tf_ops
 
@@ -35,10 +34,6 @@ def buildAndTrain(info):
 
    elif dataset == 'celeba':
       image_data = loadceleba.load(load=load)
-      real_images = tf.placeholder(tf.float32, shape=(batch_size, 64, 64, 3), name='real_images')
-
-   elif dataset == 'pokemon':
-      image_data = pokemon.load(load=load)
       real_images = tf.placeholder(tf.float32, shape=(batch_size, 64, 64, 3), name='real_images')
 
    z = tf.placeholder(tf.float32, shape=(batch_size, 100), name='z')
@@ -141,20 +136,8 @@ def buildAndTrain(info):
          batch_z  = np.random.uniform(-1.0, 1.0, size=[batch_size, 100]).astype(np.float32)
          gen_imgs = random.shuffle(sess.run([gen_images], feed_dict={z:batch_z}))
 
+         data_ops.saveImage(gen_imgs[:20], dataset, n='tanh')
 
-         tf_ops.saveImage(gen_imgs[:20], dataset)
-
-         #num = 0
-         #for img in gen_imgs[0]:
-         #   img = np.asarray(img)
-         #   tf_ops.saveImage(img, 'images/', dataset)
-         #   img *= 1.0/img.max()
-         #   #img = (img+1.)/2. # these two lines properly scale from [-1, 1] to [0, 255]
-         #   #img *= 255.0/img.max()
-         #   #cv2.imwrite('images/'+dataset+'/'+str(step)+'_'+str(num)+'.png', img)
-         #   num += 1
-         #   if num == 20:
-         #      break
          print 'Done saving'
 
 
