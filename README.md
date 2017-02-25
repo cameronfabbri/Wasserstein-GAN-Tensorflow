@@ -57,7 +57,8 @@ images into memory, so no reading from disk is required after this step.
 `python main.py config/celeba_config.py`
 
 To see a fancy picture such as the one on this page, simply run
-`python createPhotos.py celeba`
 
-or whatever dataset you trained on.
+`python createPhotos.py ../checkpoints/celeba/`
+
+or wherever your model is saved.
 

@@ -19,11 +19,9 @@ if __name__ == '__main__':
 
    num_images = n*m
 
-   #img_size = (64, 64, 3)
-   img_size = (28, 28, 1)
+   img_size = (64, 64, 3)
 
-   #canvas = 255*np.ones((m*img_size[0]+(10*m)+10, n*img_size[1]+(10*n)+10, 3), dtype=np.uint8)
-   canvas = 255*np.ones((m*img_size[0]+(10*m)+10, n*img_size[1]+(10*n)+10), dtype=np.uint8)
+   canvas = 255*np.ones((m*img_size[0]+(10*m)+10, n*img_size[1]+(10*n)+10, 3), dtype=np.uint8)
    
    z = tf.placeholder(tf.float32, shape=(num_images, 100), name='z')
    generated_images = netG(z, 'mnist', num_images)
