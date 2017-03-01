@@ -7,8 +7,6 @@ import sys
 import cv2
 import os
 
-sys.path.insert(0, 'config/')
-sys.path.insert(0, '../../ops/')
 import loadceleba
 
 '''
