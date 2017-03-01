@@ -2,6 +2,7 @@ import tensorflow as tf
 import tensorflow.contrib.slim as slim
 import sys
 
+sys.path.insert(0, 'ops/')
 from tf_ops import lrelu
 
 def netG(z, batch_size):
