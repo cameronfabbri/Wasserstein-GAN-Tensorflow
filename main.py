@@ -12,7 +12,6 @@ if __name__ == '__main__':
       print '\nsuccessfully imported',config_file
    except:
       print 'config',sys.argv[1],'not found'
-      print 'You must provide a config file as an argument!'
       print
       raise
       exit()
