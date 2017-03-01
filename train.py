@@ -63,29 +63,29 @@ def buildAndTrain(info):
    # optimize D
    D_train_op = tf.train.RMSPropOptimizer(learning_rate=0.00005).minimize(errD, var_list=d_vars, global_step=global_step)
 
-   # change to use a fraction of memory
-   #gpu_options = tf.GPUOptions(per_process_gpu_memory_fraction=1)
-   init      = tf.global_variables_initializer()
-   #sess      = tf.Session(config=tf.ConfigProto(gpu_options=gpu_options))
-   sess = tf.Session()
+   saver = tf.train.Saver(max_to_keep=1)
+   init  = tf.global_variables_initializer()
+   
+   sess  = tf.Session()
    sess.run(init)
 
    # write out logs for tensorboard to the checkpointSdir
    summary_writer = tf.summary.FileWriter(checkpoint_dir+dataset+'/'+'logs/', graph=tf.get_default_graph())
 
    # only keep one model
-   saver = tf.train.Saver(max_to_keep=1)
-   ckpt = tf.train.get_checkpoint_state(checkpoint_dir+dataset+'/')
+   #ckpt = tf.train.get_checkpoint_state(checkpoint_dir+dataset+'/')
 
+   tf.add_to_collection('G_train_op', G_train_op)
+   tf.add_to_collection('D_train_op', D_train_op)
    # restore previous model if there is one
-   if ckpt and ckpt.model_checkpoint_path:
-      print "Restoring previous model..."
-      try:
-         saver.restore(sess, ckpt.model_checkpoint_path)
-         print "Model restored"
-      except:
-         print "Could not restore model"
-         pass
+   #if ckpt and ckpt.model_checkpoint_path:
+   #   print "Restoring previous model..."
+   #   try:
+   #      saver.restore(sess, ckpt.model_checkpoint_path)
+   #      print "Model restored"
+   #   except:
+   #      print "Could not restore model"
+   #      pass
    
    ########################################### training portion
 
@@ -95,7 +95,7 @@ def buildAndTrain(info):
 
       # get the discriminator properly trained at the start
       if step < 25 or step % 500 == 0:
-         n_critic = 100
+         n_critic = 1
       else: n_critic = 5
 
       # train the discriminator for 5 or 25 runs
@@ -119,10 +119,14 @@ def buildAndTrain(info):
 
       step += 1
 
-      if step%500 == 0:
+      if step%3 == 0:
          print 'Saving model...'
-         saver.save(sess, checkpoint_dir+dataset+'/checkpoint-'+str(step), global_step=global_step)
+         #saver.save(sess, 'my-model', global_step=step)
+         meta_graph_def = tf.train.export_meta_graph(filename='checkpoints/my-model.meta')
          
+         exit()
+         saver.save(sess, checkpoint_dir+dataset+'/checkpoint-'+str(step), global_step=global_step)
+         exit() 
          batch_z  = np.random.uniform(-1.0, 1.0, size=[batch_size, 100]).astype(np.float32)
          gen_imgs = sess.run([gen_images], feed_dict={z:batch_z})
 
