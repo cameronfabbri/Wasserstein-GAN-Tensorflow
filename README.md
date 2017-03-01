@@ -12,6 +12,8 @@ Datasets
 * [CelebA dataset](https://www.dropbox.com/sh/8oqt9vytwxb3s4r/AADIKlz8PR9zr6Y20qbkunrba/Img/img_align_celeba.zip)
 * Image-net (coming soon)
 
+___
+
 ### Results
 Here are some non cherry-picked generated images after ~120,000 iterations. Images started to get a tad
 blurry after ~100,000 iterations. The loss in the graphs shows the critic was starting to get worse,
