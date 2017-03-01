@@ -57,6 +57,8 @@ images into memory, so no reading from disk is required after this step.
 
 `python main.py config.py`
 
+##### View Results
+
 To see a fancy picture such as the one on this page, simply run
 
 `python createPhotos.py checkpoints/celeba/`
