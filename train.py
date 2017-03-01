@@ -8,18 +8,13 @@ import cv2
 import os
 
 sys.path.insert(0, 'config/')
-sys.path.insert(0, 'ops/')
-import celeba
-import mnist
-import data_ops
-import tf_ops
+sys.path.insert(0, '../../ops/')
+import loadceleba
 
 '''
    Builds the graph and sets up params, then starts training
 '''
 def buildAndTrain(info):
-   
-   global_step = tf.Variable(0, name='global_step', trainable=False)
 
    checkpoint_dir = info['checkpoint_dir']
    batch_size     = info['batch_size']
@@ -28,18 +23,15 @@ def buildAndTrain(info):
    gray           = info['load']
 
    # load data
-   if dataset == 'mnist':
-      image_data = mnist.load(split='all')
-      real_images = tf.placeholder(tf.float32, shape=(batch_size, 28, 28, 1), name='real_images')
+   image_data = loadceleba.load(load=load)
 
-   elif dataset == 'celeba':
-      image_data = loadceleba.load(load=load)
-      real_images = tf.placeholder(tf.float32, shape=(batch_size, 64, 64, 3), name='real_images')
-
-   z = tf.placeholder(tf.float32, shape=(batch_size, 100), name='z')
+   # placeholders for data going into the network
+   global_step = tf.Variable(0, name='global_step', trainable=False)
+   real_images = tf.placeholder(tf.float32, shape=(batch_size, 64, 64, 3), name='color_images')
+   z           = tf.placeholder(tf.float32, shape=(batch_size, 100), name='z')
 
    # generated images
-   gen_images = netG(z, dataset, batch_size)
+   gen_images = netG(z, batch_size)
 
    # get the output from D on the real and fake data
    errD_real = netD(real_images, batch_size)
@@ -129,15 +121,22 @@ def buildAndTrain(info):
 
       step += 1
 
-      if step%1000 == 0:
+      if step%500 == 0:
          print 'Saving model...'
          saver.save(sess, checkpoint_dir+dataset+'/checkpoint-'+str(step), global_step=global_step)
          
          batch_z  = np.random.uniform(-1.0, 1.0, size=[batch_size, 100]).astype(np.float32)
-         gen_imgs = random.shuffle(sess.run([gen_images], feed_dict={z:batch_z}))
+         gen_imgs = sess.run([gen_images], feed_dict={z:batch_z})
 
-         data_ops.saveImage(gen_imgs[:20], dataset, n='tanh')
-
+         num = 0
+         for img in gen_imgs[0]:
+            img = np.asarray(img)
+            img = (img+1.)/2. # these two lines properly scale from [-1, 1] to [0, 255]
+            img *= 255.0/img.max()
+            cv2.imwrite('images/'+dataset+'/'+str(step)+'_'+str(num)+'.png', img)
+            num += 1
+            if num == 20:
+               break
          print 'Done saving'
 
 
