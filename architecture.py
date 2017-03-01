@@ -31,6 +31,12 @@ def netG(z, batch_size):
    print
    print 'END G'
    print
+
+   tf.add_to_collection('vars', conv1)
+   tf.add_to_collection('vars', conv2)
+   tf.add_to_collection('vars', conv3)
+   tf.add_to_collection('vars', conv4)
+
    return conv4 
 
 
@@ -66,5 +72,11 @@ def netD(input_images, batch_size, reuse=False):
       #conv5 = slim.flatten(conv4)
       #fc = slim.fully_connected(conv5, 1, activation_fn=tf.identity)
       print 'END D\n'
+   
+      tf.add_to_collection('vars', conv1)
+      tf.add_to_collection('vars', conv2)
+      tf.add_to_collection('vars', conv3)
+      tf.add_to_collection('vars', conv4)
+      
       return conv4
 
