@@ -65,3 +65,8 @@ To see a fancy picture such as the one on this page, simply run
 
 or wherever your model is saved.
 
+If you see the following as your "results", then you did not provide the complete path
+to your checkpoint, and this is from the model's initialized weights.
+
+![bad](http://i.imgur.com/MJfmze1.jpg)
+
