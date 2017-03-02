@@ -21,6 +21,7 @@ if __name__ == '__main__':
    learning_rate  = config.learning_rate
    batch_size     = config.batch_size
    num_critic     = config.num_critic
+   data_dir       = config.data_dir
    dataset        = config.dataset
    load           = config.load
    if checkpoint_dir[-1] is not '/': checkpoint_dir+='/'
@@ -40,6 +41,7 @@ if __name__ == '__main__':
    info['learning_rate']  = learning_rate
    info['batch_size']     = batch_size
    info['num_critic']     = num_critic
+   info['data_dir']       = data_dir
    info['dataset']        = dataset
    info['load']           = load
 
