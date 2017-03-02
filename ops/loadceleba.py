@@ -13,8 +13,8 @@ import cPickle as pickle
 '''
 def centerCrop(img, size=64):
    height, width, c = img.shape
-   if height is not 64 or width is not 64:
-      img = misc
+   #if height is not 64 or width is not 64:
+   #   img = misc
    center = (height/2, width/2)
    size   = size/2
    return img[center[0]-size:center[0]+size,center[1]-size:center[1]+size, :]
