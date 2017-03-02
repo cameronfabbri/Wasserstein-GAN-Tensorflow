@@ -185,7 +185,7 @@ def buildAndTrain(info):
             image = np.reshape(image, (64, 64, -1))
             misc.imsave('images/'+dataset+'/'+str(step)+'_'+str(num)+'.jpg', image)
             num += 1
-            if num == 20:
+            if num == 5:
                break
          print 'Done saving'
 

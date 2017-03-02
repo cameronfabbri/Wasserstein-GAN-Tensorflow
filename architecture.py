@@ -28,7 +28,6 @@ def netG(z, batch_size):
       conv2 = tf.nn.relu(conv2)
       print 'conv2:',conv2
    
-   with tf.device('/gpu:1'):   
       conv3 = slim.convolution2d_transpose(conv2, 128, 5, stride=2, normalizer_fn=slim.batch_norm, activation_fn=tf.identity, scope='g_conv3')
       conv3 = tf.nn.relu(conv3)
       print 'conv3:',conv3
@@ -56,7 +55,7 @@ def netD(input_images, batch_size, reuse=False):
    sc = tf.get_variable_scope()
    with tf.variable_scope(sc, reuse=reuse):
 
-      with tf.device('/gpu:2'):
+      with tf.device('/gpu:1'):
 
          print 'input images:',input_images
          conv1 = slim.convolution(input_images, 64, 5, stride=2, activation_fn=tf.identity, scope='d_conv1')
@@ -67,7 +66,6 @@ def netD(input_images, batch_size, reuse=False):
          conv2 = lrelu(conv2)
          print 'conv2:',conv2
          
-      with tf.device('/gpu:3'):
          conv3 = slim.convolution(conv2, 256, 5, stride=2, normalizer_fn=slim.batch_norm, activation_fn=tf.identity, scope='d_conv3')
          conv3 = lrelu(conv3)
          print 'conv3:',conv3

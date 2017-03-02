@@ -78,7 +78,7 @@ def load(
       image_data[i, ...] = img
       
       i += 1
-      #if i == 1000: break
+      if i == 1000: break
    
    return image_data
 
