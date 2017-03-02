@@ -36,6 +36,8 @@ if __name__ == '__main__':
    try: os.mkdir('images/'+dataset)
    except: pass
    
+   checkpoint_dir = checkpoint_dir+dataset
+   
    info = dict()
    info['checkpoint_dir'] = checkpoint_dir
    info['learning_rate']  = learning_rate

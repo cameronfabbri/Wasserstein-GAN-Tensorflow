@@ -1,3 +1,4 @@
+import scipy.misc as misc
 import time
 import tensorflow as tf
 from architecture import netD, netG
@@ -16,14 +17,14 @@ def _read_input(filename_queue):
       pass
 
    reader             = tf.WholeFileReader()
-   #key, value         = reader.read(filename_queue)
+   key, value         = reader.read(filename_queue)
    record             = DataRecord()
-   
    decoded_image      = tf.image.decode_jpeg(value, channels=3)
    decoded_image_4d   = tf.expand_dims(decoded_image, 0)
    resized_image      = tf.image.resize_bilinear(decoded_image_4d, [96, 96])
    record.input_image = tf.squeeze(resized_image, squeeze_dims=[0])
-   cropped_image      = tf.cast(tf.image.crop_to_bounding_box(decoded_image, 55, 35, 64, 64),tf.float32)
+   #cropped_image      = tf.cast(tf.image.crop_to_bounding_box(decoded_image, 55, 35, 64, 64),tf.float32)
+   cropped_image      = tf.cast(tf.image.central_crop(decoded_image, 0.6), tf.float32)
    decoded_image_4d   = tf.expand_dims(cropped_image, 0)
    resized_image      = tf.image.resize_bilinear(decoded_image_4d, [64, 64])
    record.input_image = tf.squeeze(resized_image, squeeze_dims=[0])
@@ -40,10 +41,7 @@ def read_input_queue(filename_queue):
                                         num_threads=num_preprocess_threads,
                                         capacity=min_queue_examples + 8 * 64,
                                         min_after_dequeue=min_queue_examples)
-
-   input_image = input_image / 127.5 - 1
-   print input_image
-   exit()
+   input_image = input_image/127.5 - 1
    return input_image
 
 '''
@@ -57,9 +55,6 @@ def buildAndTrain(info):
    dataset        = info['dataset']
    load           = info['load']
    gray           = info['load']
-
-   # load data
-   #image_data = loadceleba.load(load=False, data_dir=data_dir)
 
    # placeholders for data going into the network
    global_step = tf.Variable(0, name='global_step', trainable=False)
@@ -93,20 +88,19 @@ def buildAndTrain(info):
    g_vars = [var for var in t_vars if 'g_' in var.name]
 
    # clip weights in D
-   #clip_values = [-0.01, 0.01]
    clip_values = [-0.005, 0.005]
    clip_discriminator_var_op = [var.assign(tf.clip_by_value(var, clip_values[0], clip_values[1])) for
       var in d_vars]
 
    # optimize G
-   G_train_op = tf.train.RMSPropOptimizer(learning_rate=0.00005).minimize(errG, var_list=g_vars, global_step=global_step)
+   G_train_op = tf.train.RMSPropOptimizer(learning_rate=0.00005).minimize(errG, var_list=g_vars, global_step=global_step, colocate_gradients_with_ops=True)
 
    # optimize D
-   D_train_op = tf.train.RMSPropOptimizer(learning_rate=0.00005).minimize(errD, var_list=d_vars, global_step=global_step)
-
+   D_train_op = tf.train.RMSPropOptimizer(learning_rate=0.00005).minimize(errD, var_list=d_vars, global_step=global_step, colocate_gradients_with_ops=True)
 
    saver = tf.train.Saver(max_to_keep=1)
-   init  = tf.global_variables_initializer()
+   #init  = tf.global_variables_initializer()
+   init = tf.group(tf.global_variables_initializer(), tf.local_variables_initializer())
    
    sess  = tf.Session()
    sess.run(init)
@@ -116,15 +110,17 @@ def buildAndTrain(info):
 
    tf.add_to_collection('G_train_op', G_train_op)
    tf.add_to_collection('D_train_op', D_train_op)
+   
    # restore previous model if there is one
-   #if ckpt and ckpt.model_checkpoint_path:
-   #   print "Restoring previous model..."
-   #   try:
-   #      saver.restore(sess, ckpt.model_checkpoint_path)
-   #      print "Model restored"
-   #   except:
-   #      print "Could not restore model"
-   #      pass
+   ckpt = tf.train.get_checkpoint_state(checkpoint_dir)
+   if ckpt and ckpt.model_checkpoint_path:
+      print "Restoring previous model..."
+      try:
+         saver.restore(sess, ckpt.model_checkpoint_path)
+         print "Model restored"
+      except:
+         print "Could not restore model"
+         pass
    
    ########################################### training portion
 
@@ -139,16 +135,13 @@ def buildAndTrain(info):
 
       # get the discriminator properly trained at the start
       if step < 25 or step % 500 == 0:
-         n_critic = 1
-      else: n_critic = 1
+         n_critic = 100
+      else: n_critic = 5
 
       # train the discriminator for 5 or 25 runs
       for critic_itr in range(n_critic):
-         #batch_real_images = random.sample(image_data, batch_size)
-         
          batch_z = np.random.uniform(-1.0, 1.0, size=[batch_size, 100]).astype(np.float32)
          sess.run(D_train_op, feed_dict={z:batch_z})
-         #sess.run(D_train_op, feed_dict={real_images:batch_real_images, z:batch_z})
          sess.run(clip_discriminator_var_op)
 
       # now train the generator once! use normal distribution, not uniform!!
@@ -157,29 +150,40 @@ def buildAndTrain(info):
 
       # now get all losses and summary *without* performing a training step - for tensorboard
       D_loss, G_loss, summary = sess.run([errD, errG, merged_summary_op], feed_dict={z:batch_z})
-      #D_loss, G_loss, summary = sess.run([errD, errG, merged_summary_op], feed_dict={real_images:batch_real_images, z:batch_z})
       summary_writer.add_summary(summary, step)
 
       print 'step:',step,'D loss:',D_loss,'G_loss:',G_loss,'time:',time.time()-start
-
       step += 1
-      if step%300 == 0:
+    
+      '''
+      image = sess.run(real_images)[0]
+      image = (image+1)
+      image *= 127.5
+      image = np.clip(image, 0, 255).astype(np.uint8)
+      image = np.reshape(image, (64, 64, -1))
+      misc.imsave('IMAGE.jpg', image)
+      exit()
+      '''
+      
+      if step%1000 == 0:
          print 'Saving model...'
          #saver.save(sess, 'my-model', global_step=step)
-         meta_graph_def = tf.train.export_meta_graph(filename='checkpoints/my-model.meta')
-         
-         exit()
-         saver.save(sess, checkpoint_dir+dataset+'/checkpoint-'+str(step), global_step=global_step)
-         exit() 
+         saver.save(sess, checkpoint_dir+'checkpoint-'+str(step))
+         saver.export_meta_graph(checkpoint_dir+'checkpoint-'+str(step)+'.meta')
          batch_z  = np.random.uniform(-1.0, 1.0, size=[batch_size, 100]).astype(np.float32)
          gen_imgs = sess.run([gen_images], feed_dict={z:batch_z})
 
          num = 0
-         for img in gen_imgs[0]:
-            img = np.asarray(img)
-            img = (img+1.)/2. # these two lines properly scale from [-1, 1] to [0, 255]
-            img *= 255.0/img.max()
-            cv2.imwrite('images/'+dataset+'/'+str(step)+'_'+str(num)+'.png', img)
+         for image in gen_imgs[0]:
+            #img = np.asarray(img)
+            #img = (img+1.)/2. # these two lines properly scale from [-1, 1] to [0, 255]
+            #img *= 255.0/img.max()
+            #cv2.imwrite('images/'+dataset+'/'+str(step)+'_'+str(num)+'.png', img)
+            image = (image+1)
+            image *= 127.5
+            image = np.clip(image, 0, 255).astype(np.uint8)
+            image = np.reshape(image, (64, 64, -1))
+            misc.imsave('images/'+dataset+'/'+str(step)+'_'+str(num)+'.jpg', image)
             num += 1
             if num == 20:
                break
