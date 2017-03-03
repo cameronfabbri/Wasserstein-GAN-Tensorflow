@@ -4,8 +4,6 @@ import sys
 
 import config
 
-sys.path.insert(0, 'ops/')
-
 '''
    Leaky RELU
    https://arxiv.org/pdf/1502.01852.pdf
