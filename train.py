@@ -137,7 +137,6 @@ if __name__ == '__main__':
    checkpoint_dir = config.checkpoint_dir
    learning_rate  = config.learning_rate
    batch_size     = config.batch_size
-   num_critic     = config.num_critic
    data_dir       = config.data_dir
    dataset        = config.dataset
    if checkpoint_dir[-1] is not '/': checkpoint_dir+='/'
