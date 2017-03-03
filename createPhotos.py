@@ -71,6 +71,6 @@ if __name__ == '__main__':
          end_y   = start_y+64
 
    cv2.imwrite('results.jpg', canvas)
-   cv2.imshow('canvas', canvas)
-   cv2.waitKey(0)
-   cv2.destroyAllWindows()
+   #cv2.imshow('canvas', canvas)
+   #cv2.waitKey(0)
+   #cv2.destroyAllWindows()
