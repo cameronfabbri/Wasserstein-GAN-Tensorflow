@@ -24,7 +24,7 @@ if __name__ == '__main__':
    canvas = 255*np.ones((m*img_size[0]+(10*m)+10, n*img_size[1]+(10*n)+10, 3), dtype=np.uint8)
    
    z = tf.placeholder(tf.float32, shape=(num_images, 100), name='z')
-   generated_images = netG(z, num_images)
+   generated_images = netG(z, num_images, 0)
    
    init = tf.global_variables_initializer()
    sess = tf.Session()
@@ -70,7 +70,9 @@ if __name__ == '__main__':
          start_y = end_y + 10
          end_y   = start_y+64
 
-   cv2.imwrite('results.jpg', canvas)
+   import scipy.misc as misc
+   misc.imsave('results.jpg', canvas)
+   #cv2.imwrite('results.jpg', canvas)
    #cv2.imshow('canvas', canvas)
    #cv2.waitKey(0)
    #cv2.destroyAllWindows()
