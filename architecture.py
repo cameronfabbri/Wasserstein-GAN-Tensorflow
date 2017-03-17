@@ -93,6 +93,7 @@ def netD(input_images, batch_size, num_gpu, reuse=False):
       tf.add_to_collection('vars', conv2)
       tf.add_to_collection('vars', conv3)
       tf.add_to_collection('vars', conv4)
+      tf.add_to_collection('vars', conv5)
       
       return conv4
 
