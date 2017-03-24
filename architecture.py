@@ -68,10 +68,10 @@ def netD(input_images, batch_size, num_gpu, reuse=False):
 
       for d in gpus:
          with tf.device(d):
-            conv1 = slim.conv2d(input_images, 64, 5, stride=2, activation_fn=tf.identity, scope='d_conv1')
+            conv1 = slim.conv2d(input_images, 64, 5, stride=2, activation_fn=None, scope='d_conv1')
             conv1 = lrelu(conv1)
 
-            conv2 = slim.conv2d(conv1, 128, 5, stride=2, normalizer_fn=slim.batch_norm, activation_fn=tf.identity, scope='d_conv2')
+            conv2 = slim.conv2d(conv1, 128, 5, stride=2, normalizer_fn=slim.batch_norm, activation_fn=None, scope='d_conv2')
             conv2 = lrelu(conv2)
    
             conv3 = slim.conv2d(conv2, 256, 5, stride=2, normalizer_fn=slim.batch_norm, activation_fn=tf.identity, scope='d_conv3')
@@ -80,7 +80,7 @@ def netD(input_images, batch_size, num_gpu, reuse=False):
             conv4 = slim.conv2d(conv3, 512, 5, stride=2, normalizer_fn=slim.batch_norm, activation_fn=tf.identity, scope='d_conv4')
             conv4 = lrelu(conv4)
 
-            conv5 = slim.conv2d(conv4, 1, 4, stride=2, activation_fn=tf.identity, scope='d_conv5')
+            conv5 = slim.conv2d(conv4, 1, 4, stride=1, activation_fn=tf.identity, scope='d_conv5')
             conv5 = lrelu(conv5)
 
       print 'input images:',input_images
@@ -95,6 +95,6 @@ def netD(input_images, batch_size, num_gpu, reuse=False):
       tf.add_to_collection('vars', conv3)
       tf.add_to_collection('vars', conv4)
       tf.add_to_collection('vars', conv5)
-      
+      exit()
       return conv5
 
