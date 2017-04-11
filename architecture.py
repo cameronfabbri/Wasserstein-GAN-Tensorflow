@@ -1,5 +1,6 @@
 import tensorflow as tf
-import tensorflow.contrib.slim as slim
+#import tensorflow.contrib.layers as layers
+import tensorflow.contrib.layers as layers
 import sys
 from tf_ops import *
 
@@ -20,31 +21,32 @@ def netG(z, batch_size, num_gpu):
 
    for d in gpus:
       with tf.device(d):
-         z = slim.fully_connected(z, 4*4*1024, normalizer_fn=slim.batch_norm, activation_fn=tf.identity, scope='g_z')
+         #z = layers.fully_connected(z, 4*4*1024, normalizer_fn=layers.batch_norm, activation_fn=tf.identity, scope='g_z')
+         z = layers.fully_connected(z, 4*4*1024, normalizer_fn=layers.batch_norm, activation_fn=tf.identity, scope='g_z')
          z = tf.reshape(z, [batch_size, 4, 4, 1024])
+         
+         conv1 = layers.convolution2d_transpose(z, 512, 5, stride=2, normalizer_fn=layers.batch_norm, activation_fn=tf.identity, scope='g_conv1')
+         #with tf.variable_scope('g_conv1'):
+         #   conv1 = tf.image.resize_nearest_neighbor(z, [8,8])
+         #   conv1 = conv2d(conv1, 512, stride=1, kernel_size=3)
+         #   conv1 = batch_norm(conv1)
+         #   conv1 = tf.nn.relu(conv1)
 
-         #conv1 = slim.convolution2d_transpose(z, 512, 5, stride=2, normalizer_fn=slim.batch_norm, activation_fn=tf.identity, scope='g_conv1')
-         with tf.variable_scope('g_conv1'):
-            conv1 = tf.image.resize_nearest_neighbor(z, [8,8])
-            conv1 = conv2d(conv1, 512, stride=1, kernel_size=3)
-            conv1 = batch_norm(conv1)
-            conv1 = tf.nn.relu(conv1)
-
-         conv2 = slim.convolution2d_transpose(conv1, 256, 5, stride=2, normalizer_fn=slim.batch_norm, activation_fn=tf.identity, scope='g_conv2')
+         conv2 = layers.convolution2d_transpose(conv1, 256, 5, stride=2, normalizer_fn=layers.batch_norm, activation_fn=tf.identity, scope='g_conv2')
          #with tf.variable_scope('g_conv2'):
          #   conv2 = tf.image.resize_nearest_neighbor(conv1, [16,16])
          #   conv2 = conv2d(conv2, 256, stride=1, kernel_size=3)
          #   conv2 = batch_norm(conv2)
          conv2 = tf.nn.relu(conv2)
 
-         conv3 = slim.convolution2d_transpose(conv2, 128, 5, stride=2, normalizer_fn=slim.batch_norm, activation_fn=tf.identity, scope='g_conv3')
+         conv3 = layers.convolution2d_transpose(conv2, 128, 5, stride=2, normalizer_fn=layers.batch_norm, activation_fn=tf.identity, scope='g_conv3')
          #with tf.variable_scope('g_conv3'):
          #   conv3 = tf.image.resize_nearest_neighbor(conv2, [32,32])
          #   conv3 = conv2d(conv3, 128, stride=1, kernel_size=3)
          #   conv3 = batch_norm(conv3)
          conv3 = tf.nn.relu(conv3)
 
-         conv4 = slim.convolution2d_transpose(conv3, 3, 5, stride=2, activation_fn=tf.identity, scope='g_conv4')
+         conv4 = layers.convolution2d_transpose(conv3, 3, 5, stride=2, activation_fn=tf.identity, scope='g_conv4')
          #with tf.variable_scope('g_conv4'):
          #   conv4 = tf.image.resize_nearest_neighbor(conv3, [64,64])
          #   conv4 = conv2d(conv4, 3, stride=1, kernel_size=3)
@@ -83,30 +85,30 @@ def netD(input_images, batch_size, num_gpu, reuse=False):
 
       for d in gpus:
          with tf.device(d):
-            conv1 = slim.conv2d(input_images, 64, 5, stride=2, activation_fn=None, scope='d_conv1')
+            conv1 = layers.conv2d(input_images, 64, 5, stride=2, activation_fn=None, scope='d_conv1')
             #with tf.variable_scope('d_conv1'):
             #   conv1 = conv2d(input_images, 64, stride=2, kernel_size=5)
             conv1 = lrelu(conv1)
 
-            conv2 = slim.conv2d(conv1, 128, 5, stride=2, normalizer_fn=slim.batch_norm, activation_fn=None, scope='d_conv2')
+            conv2 = layers.conv2d(conv1, 128, 5, stride=2, normalizer_fn=layers.batch_norm, activation_fn=None, scope='d_conv2')
             #with tf.variable_scope('d_conv2'):
             #   conv2 = conv2d(conv1, 128, stride=2, kernel_size=5)
             #   conv2 = batch_norm(conv2)
             conv2 = lrelu(conv2)
    
-            conv3 = slim.conv2d(conv2, 256, 5, stride=2, normalizer_fn=slim.batch_norm, activation_fn=tf.identity, scope='d_conv3')
+            conv3 = layers.conv2d(conv2, 256, 5, stride=2, normalizer_fn=layers.batch_norm, activation_fn=tf.identity, scope='d_conv3')
             #with tf.variable_scope('d_conv3'):
             #   conv3 = conv2d(conv2, 256, stride=2, kernel_size=5)
             #   conv3 = batch_norm(conv3)
             conv3 = lrelu(conv3)
 
-            conv4 = slim.conv2d(conv3, 512, 5, stride=2, normalizer_fn=slim.batch_norm, activation_fn=tf.identity, scope='d_conv4')
+            conv4 = layers.conv2d(conv3, 512, 5, stride=2, normalizer_fn=layers.batch_norm, activation_fn=tf.identity, scope='d_conv4')
             #with tf.variable_scope('d_conv4'):
             #   conv4 = conv2d(conv3, 512, stride=2, kernel_size=5)
             #   conv4 = batch_norm(conv4)
             conv4 = lrelu(conv4)
             
-            conv5 = slim.conv2d(conv4, 1, 4, stride=1, activation_fn=tf.identity, scope='d_conv5')
+            conv5 = layers.conv2d(conv4, 1, 4, stride=1, activation_fn=tf.identity, scope='d_conv5')
             #with tf.variable_scope('d_conv5'):
             #   conv5 = conv2d(conv4, 1, stride=1, kernel_size=4)
             #   conv5 = batch_norm(conv5)
