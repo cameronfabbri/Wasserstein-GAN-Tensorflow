@@ -82,7 +82,7 @@ if __name__ == '__main__':
    sess  = tf.Session()
    sess.run(init)
 
-   summary_writer = tf.summary.FileWriter(CHECKPOINT_DIR+DATASET+'/'+'logs/', graph=tf.get_default_graph())
+   summary_writer = tf.summary.FileWriter(CHECKPOINT_DIR+'/'+'logs/', graph=tf.get_default_graph())
 
    tf.add_to_collection('G_train_op', G_train_op)
    tf.add_to_collection('D_train_op', D_train_op)
