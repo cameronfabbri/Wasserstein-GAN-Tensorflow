@@ -15,19 +15,18 @@ Datasets
 ___
 
 ### Results
-Here are some non cherry-picked generated images after ~120,000 iterations. Images started to get a tad
-blurry after ~100,000 iterations. The loss in the graphs shows the critic was starting to get worse,
-but both were generally converging. This was generated using `createPhotos.py`.
+Here are some non cherry-picked generated images after ~120,000 iterations. The graphs of the losses for the Generator
+and Critic can be seen below. Both were generally converging.
 
-![img](http://i.imgur.com/PJngSlg.jpg)
+![img](http://i.imgur.com/E3MgznB.jpg)
 
 Critic loss
 
-![d](http://i.imgur.com/Mtx7rlK.png)
+![d](http://i.imgur.com/YEcMm0P.png)
 
 Generator loss
 
-![g](http://i.imgur.com/bJBQhBX.png)
+![g](http://i.imgur.com/Sp9hz47.png)
 
 ### Training
 Training is pretty slow due to the small learning rate and multiple updates of the critic for one
