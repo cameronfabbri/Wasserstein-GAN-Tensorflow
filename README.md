@@ -55,6 +55,9 @@ change how often logs are committed.
 
 `python train.py --DATASET=celeba --DATA_DIR=/path/to/celeba/ --BATCH_SIZE=32`
 
+You can do this on anything though, not just celeba. If your images are png
+just go into data_ops and change the ext='jpg' variable.
+
 #### View Results
 
 To see a fancy picture such as the one on this page, simply run
