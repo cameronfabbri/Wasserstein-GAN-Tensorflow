@@ -54,7 +54,6 @@ def saveImage(images, step, image_dir):
 
 '''
    Inputs: A directory containing images (can have nested dirs inside) and optional extension
-
    Outputs: A list of image paths
 '''
 def getPaths(data_dir, ext='jpg'):
