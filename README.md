@@ -53,11 +53,7 @@ change how often logs are committed.
 #### Train
 **You must have a dataset ready to train.**
 
-Before training, go to `config.py` and set the path to your dataset.
-If you have more than 7 GB of RAM, setting load to True will preload all of the
-images into memory, so no reading from disk is required after this step.
-
-`python main.py config.py`
+`python train.py --DATASET=celeba --DATA_DIR=/path/to/celeba/ --BATCH_SIZE=32`
 
 #### View Results
 
