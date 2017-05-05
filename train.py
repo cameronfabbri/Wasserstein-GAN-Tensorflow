@@ -18,13 +18,11 @@ if __name__ == '__main__':
    parser.add_argument('--DATASET',    required=True,help='The DATASET to use')
    parser.add_argument('--DATA_DIR',   required=True,help='Directory where data is')
    parser.add_argument('--BATCH_SIZE', required=True,help='Batch size',type=int)
-   parser.add_argument('--NUM_GPU',    required=False,default=1,help='Number of GPUs to use', type=int)
    a = parser.parse_args()
 
    DATASET        = a.DATASET
    DATA_DIR       = a.DATA_DIR
    BATCH_SIZE     = a.BATCH_SIZE
-   NUM_GPU        = a.NUM_GPU
    CHECKPOINT_DIR = 'checkpoints/'+DATASET+'/'
    IMAGES_DIR     = CHECKPOINT_DIR+'images/'
 
@@ -44,11 +42,11 @@ if __name__ == '__main__':
    real_images       = data_ops.read_input_queue(filename_queue, BATCH_SIZE)
 
    # generated images
-   gen_images = netG(z, BATCH_SIZE, NUM_GPU)
+   gen_images = netG(z, BATCH_SIZE)
 
    # get the output from D on the real and fake data
-   errD_real = netD(real_images, BATCH_SIZE, NUM_GPU)
-   errD_fake = netD(gen_images, BATCH_SIZE, NUM_GPU, reuse=True)
+   errD_real = netD(real_images, BATCH_SIZE)
+   errD_fake = netD(gen_images, BATCH_SIZE, reuse=True)
 
    # cost functions
    errD = tf.reduce_mean(errD_real - errD_fake)
