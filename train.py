@@ -114,7 +114,7 @@ if __name__ == '__main__':
 
       # train the discriminator for 5 or 25 runs
       for critic_itr in range(n_critic):
-         batch_z = np.random.uniform(-1.0, 1.0, size=[BATCH_SIZE, 100]).astype(np.float32)
+         batch_z = np.random.normal(-1.0, 1.0, size=[BATCH_SIZE, 100]).astype(np.float32)
          sess.run(D_train_op, feed_dict={z:batch_z})
          sess.run(clip_discriminator_var_op)
 
