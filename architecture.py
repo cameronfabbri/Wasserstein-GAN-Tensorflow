@@ -11,7 +11,7 @@ def lrelu(x, leak=0.2, name='lrelu'):
 
 def netG(z, batch_size):
    print 'GENERATOR'
-   z = layers.fully_connected(z, 4*4*1024, normalizer_fn=layers.batch_norm, activation_fn=tf.identity, scope='g_z')
+   z = layers.fully_connected(z, 4*4*1024, normalizer_fn=layers.batch_norm, activation_fn=tf.nn.relu, scope='g_z')
    z = tf.reshape(z, [batch_size, 4, 4, 1024])
    
    conv1 = layers.convolution2d_transpose(z, 512, 5, stride=2, normalizer_fn=layers.batch_norm, activation_fn=tf.nn.relu, scope='g_conv1')

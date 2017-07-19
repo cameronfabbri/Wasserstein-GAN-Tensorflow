@@ -129,11 +129,11 @@ if __name__ == '__main__':
       print 'step:',step,'D loss:',D_loss,'G_loss:',G_loss,'time:',time.time()-start
       step += 1
     
-      if step%1000 == 0:
+      if step%500 == 0:
          print 'Saving model...'
          saver.save(sess, CHECKPOINT_DIR+'checkpoint-'+str(step))
          saver.export_meta_graph(CHECKPOINT_DIR+'checkpoint-'+str(step)+'.meta')
-         batch_z  = np.random.uniform(-1.0, 1.0, size=[BATCH_SIZE, 100]).astype(np.float32)
+         batch_z  = np.random.normal(-1.0, 1.0, size=[BATCH_SIZE, 100]).astype(np.float32)
          gen_imgs = sess.run([gen_images], feed_dict={z:batch_z})
 
          data_ops.saveImage(gen_imgs[0], step, IMAGES_DIR)
